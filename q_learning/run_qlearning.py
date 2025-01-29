@@ -5,28 +5,24 @@ import networkx as nx
 import random
 import numpy as np
 
-from environment import env  # Import your existing env class
+from environment import env
 
 def plot_environment(environment, iteration):
     """
     Draws the environment as a directed graph, labeling edges with current Q-values,
     and highlights the agent's current state.
     """
-    # Build a directed graph
     G = nx.DiGraph()
 
-    # Add all states as nodes
     for s in environment.states:
         G.add_node(s)
 
     # Add edges for each (state -> action) with Q-value as the weight
     for s in environment.q_table:
         for a, q_val in environment.q_table[s].items():
-            # 'none' is in your Q-table for s6, skip that
             if a != 'none':
                 G.add_edge(s, a, weight=round(q_val, 2))
 
-    # A fixed position layout for nicer visuals:
     pos = {
         "s1": (0, 1),
         "s2": (1, 1),
@@ -36,7 +32,6 @@ def plot_environment(environment, iteration):
         "s6": (2, 0)
     }
 
-    # Clear current figure and draw the graph
     plt.clf()
 
     # Highlight the current state in a different color
@@ -62,14 +57,14 @@ def plot_environment(environment, iteration):
 
     plt.title(f"Iteration {iteration} - Current State: {environment.current_state}")
     plt.axis("off")
-    plt.pause(0.5)  # brief pause to update the interactive display
+    plt.pause(0.5)
 
 def run_q_learning_visualized(num_iterations=20):
     """
     Runs a short Q-learning process with epsilon-greedy,
     plots the environment after each move.
     """
-    environment = env()  # Use your environment
+    environment = env()
     epsilon = 0.1
 
     # Turn on interactive plotting
